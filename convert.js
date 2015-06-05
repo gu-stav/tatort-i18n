@@ -23,23 +23,35 @@ var concurrentConnections = 10,
     targetLang = 'en',
     TRANSLATE_API_KEY = 'AIzaSyCzK4Zi2w-ERWH2O4uGMrchoqiqEXBTAW8',
     sourcePath = cli.args[ 0 ],
-    targetFilename = path.basename( sourcePath, path.extname( sourcePath ) ) +
-                     '-' + targetLang + '.srt',
     targetPath = path.dirname( sourcePath ),
     ast = {};
 
 var /* Generate and write the .srt File, which is generated from the AST */
     generateSRT = function( ast ) {
-      var string = '';
+      var data = '';
 
       for( var i in ast ) {
-        string += '\n';
-        string += i + '\n';
-        string += ast[ i ].begin + ' --> ' + ast[ i ].end + '\n';
-        string += ast[ i ].translation + '\n';
+        data += '\n';
+        data += i + '\n';
+        data += ast[ i ].begin + ' --> ' + ast[ i ].end + '\n';
+        data += ast[ i ].translation + '\n';
       }
 
-      fs.writeFile( path.dirname( sourcePath ) + '/' + targetFilename, string );
+      /* Replaces ASCII Encoded Characters */
+      data = data.replace( /&#(\d+);/g,
+                      function ( m, n ) {
+                        return String.fromCharCode( n );
+                      });
+
+      writeResult( data, 'srt' );
+    },
+
+    writeResult = function( data, type ) {
+      var targetFilename = path.basename( sourcePath,
+                                          path.extname( sourcePath ) ) +
+                                          '-' + targetLang + '.' + type;
+
+      fs.writeFile( path.dirname( sourcePath ) + '/' + targetFilename, data );
     },
 
     readCache = function( targetLang ) {
