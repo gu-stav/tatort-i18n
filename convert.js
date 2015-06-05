@@ -11,7 +11,8 @@ var fs = require( 'fs' ),
     async = require(  'async'  ),
     colors = require( 'colors' ),
     path = require( 'path' ),
-    cli = require( 'commander' );
+    cli = require( 'commander' ),
+    Promise = require( 'bluebird' );
 
 cli
   .version( '0.0.1' )
@@ -41,21 +42,91 @@ var /* Generate and write the .srt File, which is generated from the AST */
       fs.writeFile( path.dirname( sourcePath ) + '/' + targetFilename, string );
     },
 
-    /* Translate the whole AST */
-    translateAST = function( ast, cb ) {
-      var doTranslation = function( value, key, callback ) {
-        translate( value.text, function( translation ) {
-          ast[ key ].translation = translation;
-          callback( null );
-        });
-      };
+    readCache = function( targetLang ) {
+      return new Promise(function( resolve, reject ) {
+        var cacheFile = path.dirname( sourcePath ) +
+                        '/tatort-cache/' +
+                        targetLang +
+                        '.json',
+            data = {};
 
-      async
-        .forEachOfLimit( ast,
-                         concurrentConnections,
-                         doTranslation, function() {
-          cb( ast );
+        fs.exists( cacheFile, function( exists ) {
+          if( !exists ) {
+            return resolve( data );
+          }
+
+          fs.readFile( cacheFile, function( err, data ) {
+            resolve( JSON.parse( data ) )
+          });
         });
+      });
+    },
+
+    /* generates cache file for a certain language */
+    writeCache = function( ast, targetLang ) {
+      var cacheFile = path.dirname( sourcePath ) +
+                      '/tatort-cache/' +
+                      targetLang +
+                      '.json',
+          writeToFile = function( data ) {
+            var hasChanges = false;
+
+            if( !data ) {
+              data = {};
+            }
+
+            for( var i in ast ) {
+              if( !data[ ast[ i ].text ] ) {
+                data[ ast[ i ].text ] = ast[ i ].translation;
+                hasChanges = true;
+              }
+            }
+
+            if( hasChanges ) {
+              fs.writeFile( cacheFile, JSON.stringify( data ) );
+            }
+          };
+
+      fs.exists( cacheFile, function( exists ) {
+        if( !exists ) {
+          fs.readFile( cacheFile, function( err, data ) {
+            writeToFile( data );
+          });
+        } else {
+          writeToFile();
+        }
+      });
+    },
+
+    /* Translate the whole AST */
+    translateAST = function( ast, cache ) {
+      return new Promise(function( resolve, reject ) {
+        var doTranslation = function( value, key, callback ) {
+
+          if( cache && cache[ value.text ] ) {
+            ast[ key ].translation = cache[ value.text ];
+
+            console.log( colors.green( '[cache] ' ) +
+                         colors.white( value.text ) +
+                         ' --> ' +
+                         colors.green( cache[ value.text ] ) );
+
+            return callback( null );
+          }
+
+          translate( value.text, function( translation ) {
+            ast[ key ].translation = translation;
+            callback( null );
+          });
+        };
+
+        async
+          .forEachOfLimit( ast,
+                           concurrentConnections,
+                           doTranslation, function() {
+            resolve( ast );
+          });
+      });
     },
 
     /* Translate a single string */
@@ -84,9 +155,10 @@ var /* Generate and write the .srt File, which is generated from the AST */
                 return callback( new Error( 'Could not translate' ) );
               }
 
-              console.log( colors.white( text ) +
+              console.log( colors.red( '[req] ' ) +
+                           colors.white( text ) +
                            ' --> ' +
-                          colors.green( translation ) );
+                           colors.green( translation ) );
 
               callback( translation );
             });
@@ -146,9 +218,14 @@ var /* Generate and write the .srt File, which is generated from the AST */
     /* after reading the initial file and generating the AST, translate the
        whole thing and generate the .srt */
     translateAndGenerate = function() {
-      translateAST( ast, function( ast ) {
-        generateSRT( ast );
-      } );
+      readCache( targetLang )
+        .then( function( cache ) {
+          return translateAST( ast, cache );
+        })
+        .then( function( ast ) {
+          generateSRT( ast );
+          writeCache( ast, targetLang );
+        } );
     },
 
     /* start doing something */
