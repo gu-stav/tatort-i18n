@@ -23,7 +23,6 @@ var concurrentConnections = 10,
     targetLang = 'en',
     TRANSLATE_API_KEY = 'AIzaSyCzK4Zi2w-ERWH2O4uGMrchoqiqEXBTAW8',
     sourcePath = cli.args[ 0 ],
-    targetPath = path.dirname( sourcePath ),
     ast = {};
 
 var /* Generate and write the .srt File, which is generated from the AST */
