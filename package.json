@@ -1,0 +1,32 @@
+{
+  "name": "tatort-i18n",
+  "version": "1.0.0",
+  "description": "Note: Written in 2 hours during a night. THe code could break quickly, is very much naive und does not catch any errors. Acutally it's just a small helper.",
+  "main": "web.js",
+  "dependencies": {
+    "async": "^1.0.0",
+    "colors": "^1.1.0",
+    "body-parser": "^1.12.4",
+    "jade": "^1.10.0",
+    "commander": "^2.8.1",
+    "express": "^4.12.4",
+    "bluebird": "^2.9.27",
+    "lodash": "^3.9.3",
+    "moment": "^2.10.3",
+    "he": "^0.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavpursche/tatort-i18n.git"
+  },
+  "author": "Gustav Pursche",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gustavpursche/tatort-i18n/issues"
+  },
+  "homepage": "https://github.com/gustavpursche/tatort-i18n#readme"
+}
