@@ -30,6 +30,10 @@ app.post( '/generate', function ( req, res ) {
     } )
     .then(function() {
       res.redirect( '/' );
+    })
+    .catch(function( err ) {
+      console.log(err);
+      res.status( 500 ).send( err.stack.toString() );
     });
 });
 
