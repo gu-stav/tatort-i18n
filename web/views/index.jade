@@ -6,7 +6,7 @@ html
     div.app
 
       h1 ARD-Tatort - Subtitle Converter &amp; Translation to English
-      p.subheadline A little tool, to find the subtitle TTML-file of a Tatort episode in the given URL, to download it, so it can be translated into the given language and provide a download-Link.
+      p.subheadline A little tool, to find the subtitle TTML-file of a Tatort episode in the given URL, to download it, so it can be translated into the given language and provide a download-Link, so the Video can be played in every media player supporting Subtitle Tracks (such as VLC).
 
       form(action="/generate", method="post")
         div
@@ -60,6 +60,12 @@ html
       h1,
       h2 {
         font-weight: normal;
+      }
+
+      .subheadline {
+        font-family: Georgia;
+        font-size: .9rem;
+        font-style: italic;
       }
 
       a {
