@@ -32,7 +32,12 @@ app.post( '/generate', function ( req, res ) {
       res.redirect( '/' );
     })
     .catch(function( err ) {
-      res.status( 500 ).send( err.stack.toString() );
+      res.status( 500 ).send( err.stack.toString() +
+                              '<br/><br/><br/>' +
+                              '<strong>Please send me the complete error message, ' +
+                              'to improve the tool: <strong>' +
+                              '<a href="mailto:pursche@posteo.de">' +
+                              'pursche@posteo.de</a></strong>' );
     });
 });
 
