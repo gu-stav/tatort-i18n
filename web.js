@@ -32,7 +32,9 @@ app.post( '/generate', function ( req, res ) {
       res.redirect( '/' );
     })
     .catch(function( err ) {
-      res.status( 500 ).send( err.stack.toString() +
+      res.status( 500 ).send( '<h1>Ooops, an error occurred. Sorry for that!' +
+                              '</h1>' +
+                              '<pre>' + err.stack.toString() + '</pre>' +
                               '<br/><br/><br/>' +
                               '<strong>Please send me the complete error message, ' +
                               'to improve the tool: <strong>' +
