@@ -38,6 +38,8 @@ app.post( '/generate', function ( req, res ) {
                               'to improve the tool: ' +
                               '<a href="mailto:pursche@posteo.de">' +
                               'pursche@posteo.de</a></strong>' +
+                              ' or fix it by yourself on github: ' +
+                              'https://github.com/gustavpursche/tatort-i18n' +
                               '<pre>' + err.stack.toString() + '</pre>' );
     });
 });
