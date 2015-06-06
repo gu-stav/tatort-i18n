@@ -35,7 +35,7 @@ app.post( '/generate', function ( req, res ) {
       res.status( 500 ).send( '<h1>Ooops, an error occurred. Sorry for that!' +
                               '</h1>' +
                               '<strong>Please send me the complete error message, ' +
-                              'to improve the tool: <strong>' +
+                              'to improve the tool: ' +
                               '<a href="mailto:pursche@posteo.de">' +
                               'pursche@posteo.de</a></strong>' +
                               '<pre>' + err.stack.toString() + '</pre>' );
