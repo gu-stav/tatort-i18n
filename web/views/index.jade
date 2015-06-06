@@ -1,0 +1,140 @@
+doctype html
+html
+  head
+    title Tatort Subtitle Converter &amp; Translator
+  body
+    div.app
+
+      h1 Tatort Subtitle Converter &amp; Translator
+      p.subheadline A little tool, to find the subtitle file in the given URL, to download it, so it can translate in into the given language and provide a download-Link.
+
+      form(action="/generate", method="post")
+        div
+          label(for="web-url") Web-Address
+          input(type="text", name="url", id="web-url")
+          small Note: This must be the URL of the Video-Page, not the overview.
+        div
+          label(for="target-language") Language
+          select(name="targetlang")
+            option(value="en", selected) English
+            option(value="fr") French
+            option(value="de") German
+        div.submit
+          button(type="submit", name="save") Generate
+
+      h2 Available Translations
+      ul
+        each translation in translations
+          li
+            a(href="/subtitles/" + translation)= translation
+
+    style(type="text/css").
+      body {
+        background-color: #F5F5F5;
+        color: #333;
+        font-family: Arial;
+        margin: 0;
+        padding: 0;
+      }
+
+      .app {
+        margin: 0 auto;
+        padding: 1rem;
+        width: 29rem;
+      }
+
+      h1 {
+        border-bottom: 1px solid #E1E1E1;
+        font-size: 1.3rem;
+        margin: 0 0 .8rem 0;
+        padding: 0 0 .3rem 0;
+      }
+
+      h2 {
+        border-bottom: 1px solid #E1E1E1;
+        font-size: 1.1rem;
+        margin: 2rem 0 .8rem 0;
+        padding: 0 0 .3rem 0;
+      }
+
+      h1,
+      h2 {
+        font-weight: normal;
+      }
+
+      a {
+        color: #3E77DB;
+        text-decoration: none;
+      }
+
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
+      label {
+        display: block;
+        font-size: .8rem;
+        font-weight: bold;
+        margin-bottom: .5rem;
+      }
+
+      small {
+        color: #B9B9B9;
+        font-size: .7rem;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      ul > li {
+        padding: .2rem 0;
+      }
+
+      form {
+        margin: 0;
+        padding: 0;
+      }
+
+      form > div {
+        display: inline-block;
+        max-width: 20rem;
+        padding: 0 2rem 0 0;
+        vertical-align: top;
+      }
+
+      form > div.submit {
+        display: block;
+        margin-top: 1rem;
+      }
+
+      input {
+        border: 1px solid #D4D4D4;
+        padding: .2rem;
+        width: 100%;
+      }
+
+      input:focus {
+        border: 1px solid #3E77DB;
+      }
+
+      button {
+        background-color: #3E77DB;
+        border: none;
+        color: #FFF;
+        font-weight: bold;
+        padding: .4rem 1rem;
+      }
+
+      button:hover,
+      button:focus {
+        background-color: #3060B4;
+        cursor: pointer;
+      }
+
+      button:active {
+        background-color: #193463;
+      }
