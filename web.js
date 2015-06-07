@@ -1,9 +1,9 @@
-var express = require( 'express' ),
+var _ = require( 'lodash' ),
     bodyParser = require( 'body-parser' ),
+    express = require( 'express' ),
     fs = require( 'fs' ),
-    _ = require( 'lodash' ),
-    translator = require( './lib/translator' ),
-    path = require( 'path' );
+    path = require( 'path' ),
+    translator = require( './lib/translator' );
 
 var app = express();
 
