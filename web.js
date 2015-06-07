@@ -24,7 +24,7 @@ app.post( '/generate', function ( req, res ) {
   }
 
   translator
-    .download( url )
+    .downloadSubtitle( url )
     .then( function( fileName ) {
       return translator.translate( fileName, targetLang );
     } )
@@ -58,4 +58,4 @@ app.get( '/', function ( req, res ) {
   });
 });
 
-var server = app.listen( 3000 );
+app.listen( 3000 );
