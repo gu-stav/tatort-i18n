@@ -5,15 +5,16 @@
   "main": "web.js",
   "dependencies": {
     "async": "^1.0.0",
-    "colors": "^1.1.0",
+    "bluebird": "^2.9.27",
     "body-parser": "^1.12.4",
-    "jade": "^1.10.0",
+    "colors": "^1.1.0",
     "commander": "^2.8.1",
     "express": "^4.12.4",
-    "bluebird": "^2.9.27",
+    "follow-redirects": "0.0.3",
+    "he": "^0.5.0",
+    "jade": "^1.10.0",
     "lodash": "^3.9.3",
-    "moment": "^2.10.3",
-    "he": "^0.5.0"
+    "moment": "^2.10.3"
   },
   "devDependencies": {},
   "scripts": {
