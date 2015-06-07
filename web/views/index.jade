@@ -13,12 +13,14 @@ html
           label(for="web-url") Web-Address
           input(type="text", name="url", id="web-url")
           small Note: This must be the URL of the Video-Page, not the overview.
+
         div
           label(for="target-language") Language
           select(name="targetlang")
             option(value="en", selected) English
             option(value="fr") French
             option(value="de") German
+
         div.submit
           button(type="submit", name="save") Generate
 
@@ -27,6 +29,10 @@ html
         each translation in translations
           li
             a(href="/subtitles/" + translation)= translation
+
+      footer
+        small
+          a(href="http://gustavpursche.net") Imprint (german law requires this)
 
     style(type="text/css").
       body {
@@ -65,10 +71,16 @@ html
       .subheadline {
         color: #A2A2A2;
         font-family: Georgia;
-        font-size: .9rem;
+        font-size: .85rem;
         font-style: italic;
         line-height: 1.5;
         margin-bottom: 1.5rem;
+      }
+
+      footer,
+      footer a {
+        color: #A2A2A2;
+        margin-top: 2rem;
       }
 
       a {
