@@ -2,6 +2,7 @@ doctype html
 html
   head
     title Tatort (ARD) - Subtitle Converter &amp; Translation to English
+    meta(name="viewport" content="width=device-width, initial-scale=1")
   body
     div.app
 
@@ -30,9 +31,17 @@ html
           li
             a(href="/subtitles/" + translation)= translation
 
+      if videos
+        h2 Available Videos
+        ul
+          each video in videos
+            li
+              a(href="/videos/" + video)= video
+
       footer
         small
           a(href="http://gustavpursche.net") Imprint
+          &nbsp;
           span (German law requires this)
 
     style(type="text/css").
@@ -124,6 +133,7 @@ html
       form > div {
         display: inline-block;
         max-width: 20rem;
+        min-width: 10rem;
         padding: 0 2rem 0 0;
         vertical-align: top;
       }

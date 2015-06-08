@@ -3,11 +3,14 @@ var _ = require( 'lodash' ),
     express = require( 'express' ),
     fs = require( 'fs' ),
     path = require( 'path' ),
+    Promise = require( 'bluebird' ),
     translator = require( './lib/translator' );
 
 var app = express();
 
 app.use( '/subtitles', express.static( './subtitles' ) );
+app.use( '/videos', express.static( './videos' ) );
+
 app.set( 'view engine', 'jade' );
 app.set( 'views', './web/views' );
 app.use( bodyParser.urlencoded( { extended: true } ) );
@@ -37,25 +40,66 @@ app.post( '/generate', function ( req, res ) {
                               '<strong>Please send me the complete error message, ' +
                               'to improve the tool: ' +
                               '<a href="mailto:pursche@posteo.de">' +
-                              'pursche@posteo.de</a></strong>' +
-                              ' or fix it by yourself on github: ' +
+                              'pursche@posteo.de</a>' +
+                              ' or fix it by yourself on github:</strong> ' +
                               'https://github.com/gustavpursche/tatort-i18n' +
                               '<pre>' + err.stack.toString() + '</pre>' );
     });
 });
 
 app.get( '/', function ( req, res ) {
-  var data = {
-    translations: [],
-  };
+  var data = {},
+      friendMode = req.query && req.query.friend;
 
-  fs.readdir( __dirname + '/subtitles', function( err, files ) {
-    data.translations = _.filter( files , function( file ) {
-      return /\.srt/gi.test( file );
+  var listSubtitles = function() {
+        var subtitles = [];
+
+        return new Promise(function( resolve, reject ) {
+          fs.readdir( __dirname + '/subtitles', function( err, files ) {
+            if( err ) {
+              return reject( err );
+            }
+
+            subtitles = _.filter( files , function( file ) {
+              return /\.srt/gi.test( file );
+            });
+
+            resolve( subtitles );
+          });
+        });
+      },
+      listVideos = function() {
+        var videos = [];
+
+        return new Promise(function( resolve, reject ) {
+          fs.readdir( __dirname + '/videos', function( err, files ) {
+            if( err ) {
+              return reject( err );
+            }
+
+            videos = _.filter( files , function( file ) {
+              return /\.mp4/gi.test( file );
+            });
+
+            resolve( videos );
+          });
+        });
+      };
+
+  listSubtitles()
+    .then(function( translations ) {
+      data.translations = translations;
+
+      if( !friendMode ) {
+        return res.render( 'index', data );
+      }
+
+      return listVideos()
+              .then(function( videos ) {
+                data.videos = videos;
+                return res.render( 'index', data );
+              });
     });
-
-    res.render( 'index', data );
-  });
 });
 
 app.listen( 3000 );
