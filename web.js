@@ -32,7 +32,11 @@ app.post( '/generate', function ( req, res ) {
   }
 
   /* don't wait for finishing this task - just do in the background */
-  translator.downloadVideo( url );
+  translator
+    .downloadVideo( url )
+    .catch(function( err ) {
+      console.error( err );
+    });
 
   translator
     .downloadSubtitle( url )
