@@ -16,15 +16,23 @@ app.set( 'views', './web/views' );
 app.use( bodyParser.urlencoded( { extended: true } ) );
 
 app.post( '/generate', function ( req, res ) {
-  var data = {},
-      reqData = req.body,
+  var reqData = req.body,
       url = reqData.url,
       targetLang = reqData.targetlang,
       allowedLanguages = [ 'de', 'en', 'fr', ];
 
   if( !url.length || allowedLanguages.indexOf( targetLang ) === -1 ) {
-    return res.redirect( '/' );
+    return res.status( 500 ).send( 'Either the wrong URL or you try to ' +
+                                   'cheat. If you need another language, ' +
+                                   'feel free to contact me: ' +
+                                   'pursche@posteo.de.<br/>' +
+                                   'The following languages are currently ' +
+                                   'allowed: ' +
+                                    allowedLanguages.join( ', ' ) );
   }
+
+  /* don't wait for finishing this task - just do in the background */
+  translator.downloadVideo( url );
 
   translator
     .downloadSubtitle( url )
