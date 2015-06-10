@@ -47,13 +47,15 @@ app.post( '/generate', function ( req, res ) {
       res.redirect( '/' );
     })
     .catch(function( err ) {
+      console.error( err );
+
       res.status( 500 ).send( '<h1>Ooops, an error occurred. Sorry for that!' +
                               '</h1>' +
                               '<strong>Please send me the complete error message, ' +
                               'to improve the tool: ' +
                               '<a href="mailto:pursche@posteo.de">' +
-                              'pursche@posteo.de</a>' +
-                              ' or fix it by yourself on github:</strong> ' +
+                              'pursche@posteo.de</a> ' +
+                              'or fix it by yourself:</strong> ' +
                               'https://github.com/gustavpursche/tatort-i18n' +
                               '<pre>' + err.stack.toString() + '</pre>' );
     });
