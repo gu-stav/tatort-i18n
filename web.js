@@ -44,7 +44,7 @@ app.post( '/generate', function ( req, res ) {
       return translator.translate( fileName, targetLang );
     } )
     .then(function() {
-      res.redirect( '/' );
+      res.redirect( 'back' );
     })
     .catch(function( err ) {
       console.error( err );
