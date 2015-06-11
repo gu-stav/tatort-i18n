@@ -9,7 +9,7 @@ var _ = require( 'lodash' ),
 var app = express();
 
 app.use( '/subtitles', express.static( './subtitles' ) );
-app.use( '/videos', express.static( './videos' ) );
+app.use( '/video', express.static( './video' ) );
 
 app.set( 'view engine', 'jade' );
 app.set( 'views', './web/views' );
