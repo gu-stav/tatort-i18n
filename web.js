@@ -86,7 +86,7 @@ app.get( '/', function ( req, res ) {
         var videos = [];
 
         return new Promise(function( resolve, reject ) {
-          fs.readdir( __dirname + '/videos', function( err, files ) {
+          fs.readdir( __dirname + '/video', function( err, files ) {
             if( err ) {
               return reject( err );
             }
