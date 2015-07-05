@@ -2,7 +2,6 @@ var _ = require( 'lodash' ),
     bodyParser = require( 'body-parser' ),
     express = require( 'express' ),
     fs = require( 'fs' ),
-    path = require( 'path' ),
     Promise = require( 'bluebird' ),
     translator = require( './lib/translator' );
 
